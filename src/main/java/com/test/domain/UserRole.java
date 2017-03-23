@@ -10,8 +10,11 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "system_user")
+@Table(name = "roles")
 public class UserRole extends AbstractEntity{
+
+    @Column(name = "user_id", nullable = false)
+    private long userId;
 
     @Column(name = "name", nullable = false)
     private String name;

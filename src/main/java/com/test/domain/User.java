@@ -19,7 +19,8 @@ public class User extends AbstractEntity{
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @Column(name = "name")
     private Set<UserRoleEnum> roles = new HashSet<>();
 
     @Column(name = "is_active", nullable = false, columnDefinition="tinyint(1) default 1")
