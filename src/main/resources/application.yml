@@ -1,0 +1,19 @@
+spring:
+  profiles: default
+  datasource:
+    url: jdbc:mysql://localhost:3306/test_task?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password:
+    driverClassName: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql: true
+      format_sql: true
+      database: MYSQL
+application:
+  security:
+    key: RANDOM
+    basic:
+      enabled: false

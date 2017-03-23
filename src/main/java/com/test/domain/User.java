@@ -1,0 +1,29 @@
+package com.test.domain;
+
+import lombok.Data;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+@Entity
+@Table(name = "system_user")
+public class User extends AbstractEntity{
+
+    @Column(name = "login", nullable = false, unique = true, length = 100)
+    private String userName;
+
+    @Column(name = "password", nullable = false)
+    private String passWord;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @Column(name = "roles")
+    @OrderColumn()
+    private Set<UserRole> roles = new HashSet<>();
+
+    @Column(name = "is_active", nullable = false, columnDefinition="tinyint(1) default 1")
+    private boolean isActive = false;
+
+}
