@@ -1,7 +1,7 @@
 package com.test.service;
 
 import com.test.domain.User;
-import com.test.domain.UserRole;
+import com.test.domain.UserRoleEnum;
 import com.test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,22 +15,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserRestService<User>, UserDetailsService {
+public class UserService implements SimpleRestService<User>, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public Iterable<User> getAllUsers() {
+    public Iterable<User> getAllItems() {
         return userRepository.findAll();
     }
 
     @Override
-    public void removeUserById(long id) {
+    public void removeItemById(long id) {
         userRepository.delete(id);
     }
 
     @Override
-    public User createOrUpdateUser(User user) {
+    public User createOrUpdateItem(User user) {
         return userRepository.save(user);
     }
 
@@ -44,9 +44,9 @@ public class UserService implements UserRestService<User>, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(findedUser.getUserName(), findedUser.getPassWord(), findedUser.isActive(), true, true, true, buildGrantedAuthority(findedUser.getRoles()));
     }
 
-        private Collection<GrantedAuthority> buildGrantedAuthority(Set<UserRole> permitions){
-            return permitions.stream()
-                    .map(permission -> new SimpleGrantedAuthority(permission.name()))
-                    .collect(Collectors.toSet());
-        }
+    private Collection<GrantedAuthority> buildGrantedAuthority(Set<UserRoleEnum> permitions){
+        return permitions.stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.name()))
+                .collect(Collectors.toSet());
+    }
 }

@@ -35,24 +35,41 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         Optional<String> token = findToken(SECURITY_TOKEN_KEY, request);
-        if (token.isPresent()) {
+        if(isTokenRequest(request)){
+            chain.doFilter(request, response);
+        }else if (!token.isPresent()) {
+            unauthorizedResponse(response, "Token not found");
+        }else {
             try {
                 TokenAuthentication tokenAuthentication = new TokenAuthentication(token.get());
                 Authentication authentication = authenticationManager.authenticate(tokenAuthentication);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                chain.doFilter(request, response);
             } catch (AuthenticationException failed) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setHeader("ERROR", failed.getMessage());
+                unauthorizedResponse(response, failed.getMessage());
             }
         }
-        chain.doFilter(request, response);
+
+    }
+
+    private boolean isTokenRequest(HttpServletRequest request){
+        return request.getServletPath().startsWith("/" + SECURITY_TOKEN_KEY);
+    }
+
+
+    private void unauthorizedResponse(HttpServletResponse response, String failedMessage) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setHeader("ERROR", failedMessage);
     }
 
     private Optional<String> findToken(String token, HttpServletRequest request) {
         return Arrays.asList(findParamInHeader(token, request),
                              findParamInRequest(token, request),
                              findParamInCookies(token, request.getCookies()))
-                                    .stream().findFirst().get();
+                                    .stream()
+                                    .filter(Optional::isPresent)
+                                    .findFirst()
+                                    .orElse(Optional.empty());
     }
 
 }

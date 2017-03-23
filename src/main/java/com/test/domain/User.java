@@ -1,6 +1,7 @@
 package com.test.domain;
 
 import lombok.Data;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,10 +19,8 @@ public class User extends AbstractEntity{
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    @Column(name = "roles")
-    @OrderColumn()
-    private Set<UserRole> roles = new HashSet<>();
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
+    private Set<UserRoleEnum> roles = new HashSet<>();
 
     @Column(name = "is_active", nullable = false, columnDefinition="tinyint(1) default 1")
     private boolean isActive = false;

@@ -26,11 +26,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/token**", "/favicon.ico").permitAll()
                     .anyRequest().authenticated()
-                .and().addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    private TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
-        return new TokenAuthenticationFilter(tokenAuthenticationManager);
+                .and()
+                    .addFilterBefore(new TokenAuthenticationFilter(tokenAuthenticationManager), UsernamePasswordAuthenticationFilter.class);
     }
 
 }

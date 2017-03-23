@@ -14,7 +14,7 @@ import java.util.Objects;
 public abstract class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false, unique = true)
+    @Column(name = "id")
     private Long id;
 
     @Override

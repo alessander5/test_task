@@ -19,7 +19,7 @@ public abstract class HttpUtil {
         return Arrays.stream(cookies)
                 .filter(cookie -> param.equals(cookie.getName()))
                 .findAny()
-                .map(Object::toString);
+                .map(cookie -> cookie.getValue());
     }
 
     public static Optional<String> findParamInHeader(String param, HttpServletRequest request) {
