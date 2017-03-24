@@ -16,6 +16,9 @@ public abstract class HttpUtil {
     }
 
     public static Optional<String> findParamInCookies(String param, Cookie... cookies) {
+        if (cookies==null){
+            return Optional.empty();
+        }
         return Arrays.stream(cookies)
                 .filter(cookie -> param.equals(cookie.getName()))
                 .findAny()

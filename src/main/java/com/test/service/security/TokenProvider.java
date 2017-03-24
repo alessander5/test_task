@@ -20,7 +20,7 @@ public class TokenProvider {
     @Value("${application.security.key}")
     private String securityKey;
 
-    public TokenAuthentication generateToken(String login, String password) throws Exception {
+    public TokenAuthentication generateToken(String login, String password){
         if (isEmpty(login) || isEmpty(password)){
             throw new AuthenticationException("Can't generate token"){};
         }

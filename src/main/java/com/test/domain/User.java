@@ -1,6 +1,8 @@
 package com.test.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +11,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "system_user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends AbstractEntity{
 
     @Column(name = "login", nullable = false, unique = true, length = 100)

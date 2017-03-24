@@ -15,7 +15,7 @@ public class TokenController {
     private TokenProvider tokenProvider;
 
     @RequestMapping(path="", method = GET)
-    public String getTokenForLoginAndPasssword(@RequestParam String login, @RequestParam String password) throws Exception{
+    public String getTokenForLoginAndPasssword(@RequestParam String login, @RequestParam String password){
         return tokenProvider.generateToken(login, password).getToken();
     }
 
