@@ -1,4 +1,4 @@
-package com.test;
+package com.test.rest.spring_boot;
 
 import org.hibernate.mapping.List;
 import org.junit.*;

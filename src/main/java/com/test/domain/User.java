@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,5 +30,9 @@ public class User extends AbstractEntity{
 
     @Column(name = "is_active", nullable = false, columnDefinition="tinyint(1) default 1")
     private boolean isActive = false;
+
+    public void setRoles(UserRoleEnum... userRoles){
+        roles = new HashSet(Arrays.asList(userRoles));
+    }
 
 }

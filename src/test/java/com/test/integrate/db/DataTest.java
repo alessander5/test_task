@@ -1,4 +1,4 @@
-package com.test;
+package com.test.integrate.db;
 
 import com.test.domain.User;
 import com.test.repository.UserRepository;
