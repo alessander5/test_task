@@ -1,0 +1,14 @@
+<html ng-app="myApp">
+    <head>
+        <title>Hello AngularJS</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="hello.js"></script>
+    </head>
+<body>
+    <div ng-controller="myCtrl">
+        Your name: <input ng-model="name">
+        <button ng-click="update()">update</button>
+        <p>{{greeting}}</p>
+    </div>
+</body>
+</html>
