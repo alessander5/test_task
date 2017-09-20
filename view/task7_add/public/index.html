@@ -1,0 +1,33 @@
+<html ng-app="myapp">
+    <head>
+        <title>Notes App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="notes.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+<body ng-controller="NotesController">
+    <div>
+        Add note:<br>
+        <textarea rows="10" cols="50" ng-model="text"></textarea>
+        <button ng-click="add()">Add note</button>
+    </div>
+
+    <select ng-model="order">
+        <option value="order">Sort by order</option>
+        <option value="text">Sort alphabetically</option>
+        <option value="date">Sort by date</option>
+    </select>
+
+    <div ng-repeat="note in notes">
+        <p class="note">{{note.text}} {{note.date | date: 'HH:mm dd.MM.yyyy'}}
+            <div>
+                <button ng-click="remove(note._id)">Remove</button>
+                <button ng-show="{{order == 'order'}}" ng-click="setOnTop(note.text)">Send Top</button>
+                <input type="text" ng-model="updateText">
+                <button ng-click="update(note._id, updateText)">Edit</button>
+            </div>
+        </p>
+
+    </div>
+</body>
+</html>
