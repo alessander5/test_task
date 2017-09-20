@@ -1,0 +1,20 @@
+<html ng-app="myapp">
+    <head>
+        <title>Notes App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="notes.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+<body ng-controller="NotesController">
+    <div>
+        Add note:<br>
+        <textarea rows="10" cols="50" ng-model="text"></textarea>
+        <button ng-click="add()">Add note</button>
+    </div>
+    <div ng-repeat="note in notes">
+        <p class="note">{{note.text}}</p>
+        <button ng-click="remove(note.id)">Remove</button>
+        <button ng-click="sendTop(note.id)">Send Top</button>
+    </div>
+</body>
+</html>

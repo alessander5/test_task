@@ -1,0 +1,10 @@
+{
+  "name": "tutorial",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "~4.12.2",
+    "body-parser": "~1.12.4",
+    "express-session": "~1.7.6",
+    "connect-mongo": "*"
+  }
+}
