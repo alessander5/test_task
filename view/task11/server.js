@@ -34,27 +34,19 @@ app.listen(3002);
 
 
 app.get("/sections", function(req,res){
-    db.sections.find(req.query).toArray(function(err, items){
+    var userName = req.session.userName || "demo";
+    var userName = req.session.userName || "demo";
+    db.sections.find({userName:userName}).toArray(function(err, items) {
         res.send(items);
-    })
+    });
 });
 
-app.post("/sections/replace", function(req, resp){
-    if(req.body.length==0){
-        resp.end();
-    }
-    db.sections.remove({}, function(err, res){
-        if(err){
-            console.log(err);
-        }
-        db.sections.insert(req.body, function(err, res){
-            if(err){
-                console.log("Error after insert",err);
-            }
-            resp.end();
+app.post("/sections/replace", function(req,res) {
+    var userName = req.session.userName || "demo";
+    db.users.update({userName:userName}, {$set:{sections:req.body}},
+        function() {
+            res.end();
         });
-    });
-
 });
 
 
@@ -70,6 +62,7 @@ db.collection('notes', function(error, notes){
 });
 
 app.get("/notes", function(req,res){
+    setUserQuery(req);
     var str = req.query.order;
     switch(str){
         case "date":
@@ -91,6 +84,7 @@ app.get("/notes", function(req,res){
 });
 
 app.post("/notes", function(req,res){
+    setUserQuery(req);
     db.notes.insert(req.body);
     res.end();
 });
@@ -121,13 +115,10 @@ app.get("/notes/setOnTop", function(req,res){
     db.notes.find().sort({order:1}).limit(1)
         .toArray(function(error, items){
             topNote = items[0];
-            console.log(topNote);
         });
-    console.log(topNote);
     db.notes.find({text:req.query.text})
         .toArray(function(error, items){
             var current = items[0];
-            console.log(current.text);
             db.notes.update(current, { $set:{order: topNote.order-1} });
         });
     db.notes.find(req.query).sort({order:1}).toArray(function(error, items){
@@ -152,4 +143,25 @@ app.get("/checkUser", function(req,res){
     db.users.findOne(req.query, function(error, user){
         res.send(Boolean(!user));
     });
+});
+
+///
+
+function setUserQuery(req) {
+    req.query.userName = req.session.userName || "demo";
+}
+
+app.post("/login", function(req,res) {
+    var id = {userName:req.body.login, password:req.body.password};
+    db.users.find(id).toArray(function(err, items) {
+        if (items.length>0) {
+            req.session.userName = req.body.login;
+        }
+        res.send(items.length>0);
+    });
+});
+
+app.get("/logout", function(req, res) {
+    req.session.userName = null;
+    res.end();
 });

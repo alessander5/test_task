@@ -1,0 +1,64 @@
+<html ng-app="myapp">
+    <head>
+        <title>Notes App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.min.js"></script>
+        <script src="routes/notes/notes.js"></script>
+        <script src="routes/viewSection/viewSection.js"></script>
+        <script src="routes/userForm/userForm.js"></script>
+        <script src="routes/login/userService.js"></script>
+        <script src="routes/login/loginController.js"></script>
+        <script src="routes/routes.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+<body ng-controller="NotesController">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="navbar-brand">Notes tutorial app</div>
+        </div>
+        <div id="navbar" ng-controller="LoginController" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right"
+                ng-show="!loggedIn" ng-submit="login()">
+                <div class="form-group">
+                    <input type="text" placeholder="Username" class="form-control"
+                        ng-model="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" class="form-control"
+                        ng-model="password">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+                <a class="btn btn-primary" ng-href="#/register">Register</a>
+
+                <div ng-show= "wrongPassword" style="color: white ">
+                    Wrong username or password
+                </div>
+            </form>
+            <div ng-show= "loggedIn" style="color: white "
+                 class= "navbar-form navbar-right" >
+                User: {{username}}
+                <a class= "btn btn-primary" ng-click= "logout()" >Logout</a>
+            </div>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>
+            <span class="glyphicon glyphicon-edit"></span>
+            Keep your notes in order
+        </h2>
+        <p>
+            A simple application to keep your own notes in order.
+        </p>
+    </div>
+</div>
+
+<div class="container"  ng-view="">
+
+</div>
+</body>
+</html>
